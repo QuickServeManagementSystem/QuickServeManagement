@@ -4,13 +4,8 @@ const FormRegister = () => {
             <form method='POST' autoComplete='off'>
                 <div className='flex flex-col md:flex-row md:gap-12'>
                     <div className='mb-6 md:w-1/3'>
-                        <label htmlFor="yourname" className='text-base font-semibold'>Họ Và Tên nhân viên: </label>
-                        <input type="text" name="yourname" placeholder="Nhập Tên Của Nhân Viên...."
-                            className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full' />
-                    </div>
-                    <div className='mb-6 md:w-1/3'>
-                        <label htmlFor="address" className='text-base font-semibold'>Địa chỉ nhân viên: </label>
-                        <input type="text" name="address" placeholder="Nhập địa chỉ nhân viên...."
+                        <label htmlFor="email" className='text-base font-semibold'>Email: </label>
+                        <input type="email" name="email" placeholder="Nhập Email Của Nhân Viên...."
                             className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full' />
                     </div>
                 </div>
@@ -30,20 +25,6 @@ const FormRegister = () => {
                         </select>
                     </div>
                 </div>
-
-                <div className='flex flex-col md:flex-row md:gap-12'>
-                    <div className='mb-6 md:w-1/3'>
-                        <label htmlFor="email" className='text-base font-semibold'>Email: </label>
-                        <input type="email" name="email" placeholder="Nhập Email Của Nhân Viên...."
-                            className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full' />
-                    </div>
-                    <div className='mb-6 md:w-1/3'>
-                        <label htmlFor="phone" className='text-base font-semibold'>Số điện thoại: </label>
-                        <input type="tel" name="phone" placeholder="Nhập Số Điện Thoại Của Nhân Viên...."
-                            className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full' />
-                    </div>
-                </div>
-
                 <div className='flex flex-col md:flex-row md:gap-12'>
                     <div className='mb-6 md:w-1/3'>
                         <label htmlFor="password" className='text-base font-semibold'>Mật khẩu: </label>

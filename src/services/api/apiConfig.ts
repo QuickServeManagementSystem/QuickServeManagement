@@ -1,5 +1,4 @@
-export const BASE_URL =
-    'https://quick-serve-server.azurewebsites.net/api/v1';
+export const BASE_URL = 'https://quick-serve-server.azurewebsites.net/api/v1';
 
 //Athentication endpoints
 export const loginEndpoint = `${BASE_URL}/Account/Authenticate`;
