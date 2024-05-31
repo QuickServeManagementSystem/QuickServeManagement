@@ -16,7 +16,12 @@ const UserInformation = ({
     userId,
     username,
     email,
-    role
+    role,
+    phoneNumber,
+    name,
+    address,
+    avatar,
+    created
 }: UserInformationProps) => {
     console.log(userId, username, email, role)
     return (
@@ -27,7 +32,7 @@ const UserInformation = ({
                     <div className="flex">
                         <div className="w-1/4 p-4">
                             <div className="flex items-center mb-4">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar" className="w-20 h-20 rounded-full" />
+                                <img src={avatar ?? 'https://bootdey.com/img/Content/avatar/avatar1.png'} alt="avatar" className="w-20 h-20 rounded-full" />
                                 <div className="ml-4">
                                     <label className="border border-orange-500 p-1 rounded-md font-bold bg-orange-500 cursor-pointer">
                                         Upload new photo
@@ -51,6 +56,7 @@ const UserInformation = ({
                                             </label>
                                         </div>
                                         <input
+                                            value={name}
                                             type="text" required name="fullname" placeholder="Họ và tên...."
                                             className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full' />
                                     </div>
@@ -79,6 +85,7 @@ const UserInformation = ({
                                             type="email"
                                             required
                                             name="email"
+                                            value={email}
                                             placeholder="Email đăng nhập...."
                                             className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full' />
                                     </div>
@@ -91,7 +98,11 @@ const UserInformation = ({
                                             <label htmlFor="phone" className='text-base font-semibold'>Số điện thoại: </label>
                                         </div>
                                         <input
-                                            type="tel" required name="phone" placeholder="Số điện thoại...."
+                                            type="tel"
+                                            required
+                                            name="phone"
+                                            value={phoneNumber}
+                                            placeholder="Số điện thoại...."
                                             className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full' />
                                     </div>
                                     <div className='mb-6 md:w-1/3'>
@@ -113,7 +124,11 @@ const UserInformation = ({
                                             <label htmlFor="address" className='text-base font-semibold'>Nơi ở hiện tại: </label>
                                         </div>
                                         <input
-                                            type="tel" required name="phone" placeholder="Nơi ở hiện tại...."
+                                            type="tel"
+                                            required
+                                            name="phone"
+                                            value={address}
+                                            placeholder="Nơi ở hiện tại...."
                                             className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full' />
                                     </div>
                                     <div className='mb-6 w-1/3'>
@@ -122,7 +137,11 @@ const UserInformation = ({
                                         </div>
                                         <input
                                             readOnly
-                                            type="tel" required name="created" placeholder="Ngày tạo tài khoản...."
+                                            value={new Date(created).toLocaleDateString('vi-VN')}
+                                            type="text"
+                                            required
+                                            name="created"
+                                            placeholder="Ngày tạo tài khoản...."
                                             className='mt-2 p-2 border-2 border-orange-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 w-full' />
                                     </div>
                                 </div>
