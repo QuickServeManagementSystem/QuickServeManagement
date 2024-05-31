@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IUserInfo } from '../../models/UserInfor';
 import axios from 'axios';
-import { getAllUsersEndpoint } from '../api/apiConfig';
+import { getAllUsersEndpoint, getUserByIdEndpoint } from '../api/apiConfig';
 
 interface UserState {
     loading: boolean;
@@ -35,6 +35,28 @@ export const getAllUser = createAsyncThunk<IUserInfo[], void>(
         }
     },
 );
+export const getUserById = createAsyncThunk<IUserInfo, { id: string }>(
+    'users/getUserById',
+    async (data, thunkAPI) => {
+        const { id } = data;
+        try {
+            const token = localStorage.getItem('quickServeToken');
+            const response = await axios.get(
+                `${getUserByIdEndpoint}?id=${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+            return response.data.data;
+        } catch (error: any) {
+            return thunkAPI.rejectWithValue(
+                error.response?.data?.errorMessages || 'Unknown error',
+            );
+        }
+    },
+);
 
 export const usersSlice = createSlice({
     name: 'users',
@@ -54,6 +76,19 @@ export const usersSlice = createSlice({
             state.error = null;
         });
         builder.addCase(getAllUser.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload as string;
+        });
+        //User profile
+        builder.addCase(getUserById.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(getUserById.fulfilled, (state, action) => {
+            state.loading = false;
+            state.user = action.payload;
+            state.error = null;
+        });
+        builder.addCase(getUserById.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload as string;
         });
