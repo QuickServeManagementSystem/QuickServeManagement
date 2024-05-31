@@ -27,7 +27,7 @@ export const getAllUser = createAsyncThunk<IUserInfo[], void>(
                     Authorization: `Bearer ${token}`,
                 },
             });
-            return response.data;
+            return response.data.data;
         } catch (error: any) {
             return thunkAPI.rejectWithValue(
                 error.response?.data?.errorMessages || 'Unknown error',
