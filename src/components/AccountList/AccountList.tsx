@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from '../../services/store/store';
 import { useEffect, useState } from 'react';
 import { getAllUser } from '../../services/features/userSlice';
 import { IUserInfo } from '../../models/UserInfor';
+import PopupUserDetail from '../Popup/PopupUserDetail';
 
 const columns: MRT_ColumnDef<IUserInfo>[] = [
     {
@@ -40,24 +41,14 @@ const columns: MRT_ColumnDef<IUserInfo>[] = [
         accessorKey: 'roles',
         header: 'Chức danh',
         Cell: ({ cell }) => {
-            if (cell.row.original.roles && cell.row.original.roles.includes('Brand_Manager')) {
-                return 'QL. Thương hiệu';
-            }
-            if (cell.row.original.roles && cell.row.original.roles.includes('Admin')) {
-                return 'Quản trị viên';
-            }
-            if (cell.row.original.roles && cell.row.original.roles.includes('Store_Manager')) {
-                return 'QL. Cửa hàng';
-            }
-            if (cell.row.original.roles && cell.row.original.roles.includes('Staff')) {
-                return 'Nhân viên';
-            }
-            if (cell.row.original.roles && cell.row.original.roles.includes('Customer')) {
-                return 'Khách hàng';
-            }
-            else {
-                return cell.row.original.roles;
-            }
+            const roles = cell.row.original.roles;
+            if (!roles) return 'No roles';
+            if (roles[0]?.includes('Brand_Manager')) return 'QL. Thương hiệu';
+            if (roles.includes('Admin')) return 'Quản trị viên';
+            if (roles.includes('Store_Manager')) return 'QL. Cửa hàng';
+            if (roles.includes('Staff')) return 'Nhân viên';
+            if (roles.includes('Customer')) return 'Khách hàng';
+            return roles;
         },
     },
     {
@@ -80,14 +71,8 @@ const columns: MRT_ColumnDef<IUserInfo>[] = [
         accessorKey: 'created',
         header: 'Ngày tạo',
         Cell: ({ cell }) => {
-            if (typeof cell.row.original.created === 'string') {
-                const date = cell.row.original.created.split('T')[0];
-                return date;
-            } else if (cell.row.original.created instanceof Date) {
-                return cell.row.original.created.toISOString().split('T')[0];
-            } else {
-                return cell.row.original.created;
-            }
+            const created = cell.row.original.created;
+            return typeof created === 'string' ? created.split('T')[0] : new Date(created).toISOString().split('T')[0];
         },
     }
 ];
@@ -95,17 +80,14 @@ const columns: MRT_ColumnDef<IUserInfo>[] = [
 const AccountList = () => {
     const dispatch = useAppDispatch();
     const { users } = useAppSelector((state) => state.users);
-    const [userId, setUserId] = useState<string>('');
+    const [userData, setUserData] = useState<IUserInfo | null>(null);
     const [onPopupDetail, setOnPopupDetail] = useState<boolean>(false);
 
-    const handleShowDetail = (userId: string) => {
-        setUserId(userId);
-        console.log(userId)
+    const handleShowDetail = (user: IUserInfo) => {
+        setUserData(user);
         setOnPopupDetail(true);
-    }
+    };
 
-
-    console.log(users)
     useEffect(() => {
         dispatch(getAllUser());
     }, [dispatch]);
@@ -146,15 +128,11 @@ const AccountList = () => {
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
                                     <TableCell align="left" variant="head" key={header.id}>
-                                        {header.isPlaceholder
-                                            ? null
-                                            : <Typography fontWeight={700} color={'black'}>
-                                                {flexRender(
-                                                    header.column.columnDef.Header ?? header.column.columnDef.header,
-                                                    header.getContext(),
-                                                )}
+                                        {header.isPlaceholder ? null : (
+                                            <Typography fontWeight={700} color={'black'}>
+                                                {flexRender(header.column.columnDef.Header ?? header.column.columnDef.header, header.getContext())}
                                             </Typography>
-                                        }
+                                        )}
                                     </TableCell>
                                 ))}
                             </TableRow>
@@ -165,16 +143,12 @@ const AccountList = () => {
                             <TableRow
                                 key={row.id}
                                 selected={row.getIsSelected()}
-                                onDoubleClick={() => handleShowDetail(row.original.id)}
-                                style={{ backgroundColor: rowIndex % 2 === 0 ? 'white' : '#d9d9d9' }}
+                                onDoubleClick={() => handleShowDetail(row.original)}
+                                style={{ backgroundColor: rowIndex % 2 === 0 ? 'white' : '#d9d9d9', cursor: 'pointer' }}
                             >
-                                {row.getVisibleCells().map((cell, _columnIndex) => (
+                                {row.getVisibleCells().map((cell) => (
                                     <TableCell align="left" variant="body" key={cell.id}>
-                                        <MRT_TableBodyCellValue
-                                            cell={cell}
-                                            table={table}
-                                            staticRowIndex={rowIndex}
-                                        />
+                                        <MRT_TableBodyCellValue cell={cell} table={table} staticRowIndex={rowIndex} />
                                     </TableCell>
                                 ))}
                             </TableRow>
@@ -183,9 +157,13 @@ const AccountList = () => {
                 </Table>
             </TableContainer>
             <MRT_ToolbarAlertBanner stackAlertBanner table={table} />
+            <PopupUserDetail
+                user={userData}
+                onPopupDetail={onPopupDetail}
+                setOnPopupDetail={setOnPopupDetail}
+            />
         </Stack>
     );
 };
 
 export default AccountList;
-

@@ -23,7 +23,6 @@ const UserInformation = ({
     avatar,
     created
 }: UserInformationProps) => {
-    console.log(userId, username, email, role)
     return (
         <div className="mx-auto bg-white shadow-lg overflow-hidden">
             <div className="container mx-auto py-6">
