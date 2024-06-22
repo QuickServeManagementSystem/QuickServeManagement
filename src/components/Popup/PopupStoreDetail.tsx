@@ -6,14 +6,12 @@ type PopupStoreDetailProps = {
     store: IStore | null;
     onPopupDetail: boolean;
     setOnPopupDetail: React.Dispatch<React.SetStateAction<boolean>>;
-    onRename: () => void;
 }
 
 const PopupStoreDetail: React.FC<PopupStoreDetailProps> = ({
     store,
     onPopupDetail,
     setOnPopupDetail,
-    onRename,
 }) => {
     return (
         <div
@@ -89,7 +87,7 @@ const PopupStoreDetail: React.FC<PopupStoreDetailProps> = ({
                                     </div>
                                     <div className="w-auto flex gap-4">
                                         <button
-                                            onClick={onRename}
+                                          
                                             className="text-xs w-24 border border-blue-500p-1 bg-blue-500 text-white-900 font-bold rounded-lg"
                                         >
                                             Sửa tên

@@ -20,7 +20,7 @@ const PopupCreateStore: React.FC<PopupCreateStoreProps> = ({ isPopupOpen, closeP
     const dispatch = useAppDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormCreateStoreValues>({
+    const { register, handleSubmit, reset, } = useForm<FormCreateStoreValues>({
         resolver: yupResolver(schemaCategory)
     });
 
@@ -65,6 +65,7 @@ const PopupCreateStore: React.FC<PopupCreateStoreProps> = ({ isPopupOpen, closeP
                                 />
                                
                             </div>
+                           
                             <div className="mb-4">
                                 <label htmlFor="address" className="block text-sm font-medium text-gray-700">Địa chỉ</label>
                                 <input
