@@ -56,6 +56,8 @@ const EmployeeListComponent = () => {
     const dispatch = useAppDispatch();
     const { employees } = useAppSelector((state) => state.employees);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [employeeData, setEmployeeData] = useState<IEmployee | null>(null);
+    const [onPopupEmployeeDetail, setOnPopupEmployeeDetail] = useState<boolean>(false);
 
     useEffect(() => {
         if (!isPopupOpen) {
@@ -67,8 +69,17 @@ const EmployeeListComponent = () => {
         setIsPopupOpen(true);
     };
 
+    const handlePopupClose = () => {
+        setIsPopupOpen(false);
+    };
+
     const handleClosePopupCreateEmployee = () => {
         setIsPopupOpen(false);
+    };
+
+    const handleShowEmployeeDetail = (employee: IEmployee) => {
+        setEmployeeData(employee);
+        setOnPopupEmployeeDetail(true);
     };
     
 
@@ -77,6 +88,7 @@ const EmployeeListComponent = () => {
             <CommonTable
                 columns={columns}
                 data={employees || []}
+                onRowDoubleClick={handleShowEmployeeDetail}
                 toolbarButtons={
                     <Button
                         variant="contained"
@@ -95,7 +107,12 @@ const EmployeeListComponent = () => {
                 closePopup={handleClosePopupCreateEmployee}
             />
            
-   
+            {employeeData && (
+                <>
+                 
+               
+                </>
+            )}
         </Stack>
     );
 };

@@ -4,6 +4,8 @@ import { Stack, Button } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../services/store/store';
 import { getAllStore } from '../../services/features/storeSlice';
 import { IStore } from '../../models/Store';
+
+import PopupCheck from '../Popup/PopupCheck';
 import CommonTable from '../CommonTable/CommonTable';
 import PopupStoreDetail from '../Popup/PopupStoreDetail';
 import PopupCreateStore from '../Popup/PopupCreateStore';
@@ -38,6 +40,8 @@ const StoreListComponent = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [storeData, setStoreData] = useState<IStore | null>(null);
     const [onPopupStoreDetail, setOnPopupStoreDetail] = useState<boolean>(false);
+    const [openPopupRename, setOpenPopupRename] = useState<boolean>(false);
+    const [selectedStoreId, setSelectedStoreId] = useState<number | null>(null);
 
 
     useEffect(() => {
@@ -63,6 +67,12 @@ const StoreListComponent = () => {
     //     setSelectedCateId(id);
     //     setOnPopupCheckChangeStatus(true);
     // };
+
+    const handleOpenPopupRenameCategory = (id: number) => {
+        setSelectedStoreId(id);
+        setOpenPopupRename(true);
+    };
+
 
 
     return (
@@ -95,7 +105,9 @@ const StoreListComponent = () => {
                         store={storeData}
                         onPopupDetail={onPopupStoreDetail}
                         setOnPopupDetail={setOnPopupStoreDetail}       
-                     
+                        onRename={() =>
+                            handleOpenPopupRenameCategory(storeData.id)
+                        }
                     />
                
                 </>
